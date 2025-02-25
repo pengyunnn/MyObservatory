@@ -31,7 +31,23 @@ def ios_driver():
 
     
 def test_open_my_observatory(ios_driver):
-    """ Test opening MyObservatory app """
+    """
+    Test the navigation flow in the MyObservatory app.
+
+    Steps:
+    1. Open the side menu by clicking the menu button.
+    2. Expand the "預報及警告服務" (Forecast and Warning Services) section.
+    3. Click on the "九天預報" (9-Day Forecast) option.
+    4. Capture a screenshot after clicking the 9-Day Forecast button.
+    5. Verify that the page source contains the expected text "九天預報" to confirm successful navigation.
+
+    Args:
+        ios_driver: Appium WebDriver instance for iOS automation.
+
+    Assertions:
+        - Checks if "九天預報" is present in the page source after navigation.
+
+    """
     ios_driver.find_element("xpath", "//XCUIElementTypeButton[@label='目錄, 左邊彈出選單']").click()
 
     ios_driver.implicitly_wait(5)
