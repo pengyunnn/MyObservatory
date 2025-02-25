@@ -1,5 +1,6 @@
 import pytest
 import requests
+import logging
 
 
 from datetime import datetime, timedelta
@@ -33,7 +34,7 @@ def test_extract_relative_humidity(api_response):
         if forecast["forecastDate"] == day_after_tomorrow:
             max_humidity = forecast["forecastMaxrh"]['value']
             min_humidity = forecast["forecastMinrh"]['value']
-            print(f"Relative Humidity for {day_after_tomorrow}: {min_humidity}% ~ {max_humidity}%")
+            logging.info(f"Relative Humidity for {day_after_tomorrow}: {min_humidity}% ~ {max_humidity}%")
             assert max_humidity, "Relative humidity data missing"
             assert min_humidity, "Relative humidity data missing"
             return
