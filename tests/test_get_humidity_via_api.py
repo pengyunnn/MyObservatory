@@ -1,3 +1,4 @@
+import config
 import pytest
 import requests
 import logging
@@ -6,21 +7,21 @@ import logging
 from datetime import datetime, timedelta
 
 
-API_URL = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php"
-PARAMS = {
-    "dataType": "fnd",
-    "lang": "tc"
-}
-
 @pytest.fixture(scope="module")
 def api_response():
     """ Fixture to fetch the API response once for all tests """
-    response = requests.get(API_URL, params=PARAMS)
+    params = {
+        "dataType": "fnd",
+        "lang": "tc"
+    }
+    response = requests.get(config.API_URL, params=params)
     return response
+
 
 def test_api_status(api_response):
     """ Test if the API response status is 200 (OK) """
     assert api_response.status_code == 200, f"API request failed with status code {api_response.status_code}"
+
 
 def test_extract_relative_humidity(api_response):
     """ Extract the relative humidity for the day after tomorrow """

@@ -1,3 +1,4 @@
+import config
 import pytest
 import requests
 
@@ -9,23 +10,23 @@ from appium.options.ios import XCUITestOptions
 @pytest.fixture(scope="module")
 def ios_driver():
     caps = {
-        "platformName": "iOS",
-        "deviceName": "iPhone 14 Pro",
-        "udid": "00008120-00022CC00ADB401E",
-        "platformVersion": "18.1.1",
+        "platformName": config.PLATFORM_NAME,
+        "deviceName": config.DEVICE_NAME,
+        "udid": config.DEVICE_UDID,
+        "platformVersion": config.PLATFORM_VERSION,
         "automationName": "XCUITest",
         "bundleId": "com.apple.Preferences",
         "showXcodeLog": True,
         "bundleId": "locspc"
     }
 
-    appium_server_url = "http://localhost:4723"
-
     options = XCUITestOptions()
     options.load_capabilities(caps)
 
-    driver = webdriver.Remote(command_executor=appium_server_url, options=options)
+    driver = webdriver.Remote(command_executor=config.APPIUM_SERVER_URL, options=options)
+    
     yield driver
+    
     driver.quit()
 
     
@@ -42,6 +43,6 @@ def test_open_my_observatory(ios_driver):
     nine_day_forecast.click()
     
     ios_driver.implicitly_wait(5)
-    ios_driver.save_screenshot("after_click.png")
+    ios_driver.save_screenshot(f"{config.SCREENSHOTS_DIR}/after_click.png")
     
     assert "九天預報" in ios_driver.page_source, "Page source does not contain expected text '九天預報'"
